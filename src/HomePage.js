@@ -68,7 +68,11 @@ function HomePage({ feedsStore }) {
   return (
     <div className="home-page">
       <h1 className="center">Fuentes de noticias</h1>
-      <Formik validationSchema={schema} onSubmit={handleSubmit}>
+      <Formik
+        validationSchema={schema}
+        onSubmit={handleSubmit}
+        initialValues={{ name: '', url: '' }}
+      >
         {({
           handleSubmit,
           handleChange,

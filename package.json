@@ -1,7 +1,7 @@
 {
-  "name": "react-rss-tutorial-app",
-  "version": "0.1.0",
-  "private": true,
+  "name": "cae-rss",
+  "version": "0.2.0",
+  "private": false,
   "dependencies": {
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
