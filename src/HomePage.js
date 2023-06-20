@@ -67,7 +67,7 @@ function HomePage({ feedsStore }) {
 
   return (
     <div className="home-page">
-      <Row className="row d-flex">
+      <Row className="d-flex">
         {news.map((item, index) => (
           <Col xs={12} md={8} lg={6} xl={4} className="mb-4">
             <Card key={index} className="card-animation">
