@@ -16,7 +16,7 @@ const schema = yup.object({
     .string()
     .required("URL is required")
     .matches(
-      /(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/,
+      /(https?:\/\/)?([\w-])+.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/,
       "Invalid URL"
     ),
 });
@@ -57,7 +57,7 @@ function HomePage({ feedsStore }) {
       } catch (ex) {}
       setInitialized(true);
     }
-  });
+  }, [initialized, feedsStore]);
 
   if (redirectToFeed) {
     return (
@@ -67,7 +67,7 @@ function HomePage({ feedsStore }) {
 
   return (
     <div className="home-page">
-      <h1 className="center">RSS Feeds</h1>
+      <h1 className="center">Fuentes de noticias</h1>
       <Formik validationSchema={schema} onSubmit={handleSubmit}>
         {({
           handleSubmit,
@@ -81,11 +81,11 @@ function HomePage({ feedsStore }) {
           <Form noValidate onSubmit={handleSubmit}>
             <Form.Row>
               <Form.Group as={Col} md="12" controlId="name">
-                <Form.Label>Name</Form.Label>
+                <Form.Label>Nombre</Form.Label>
                 <Form.Control
                   type="text"
                   name="name"
-                  placeholder="Name"
+                  placeholder="Nombre"
                   value={values.name || ""}
                   onChange={handleChange}
                   isInvalid={touched.name && errors.name}
@@ -95,11 +95,11 @@ function HomePage({ feedsStore }) {
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Col} md="12" controlId="url">
-                <Form.Label>URL</Form.Label>
+                <Form.Label>Enlace</Form.Label>
                 <Form.Control
                   type="text"
                   name="url"
-                  placeholder="URL"
+                  placeholder="Enlace"
                   value={values.url || ""}
                   onChange={handleChange}
                   isInvalid={touched.url && errors.url}
@@ -110,7 +110,7 @@ function HomePage({ feedsStore }) {
                 </Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
-            <Button type="submit">Add</Button>
+            <Button type="submit">Añadir</Button>
           </Form>
         )}
       </Formik>
@@ -125,10 +125,10 @@ function HomePage({ feedsStore }) {
                 variant="primary"
                 onClick={setSelectedFeed.bind(this, f.url)}
               >
-                Open
+                Leer
               </Button>{" "}
               <Button variant="primary" onClick={deleteFeed.bind(this, i)}>
-                Delete
+                Eliminar
               </Button>
             </Card.Body>
           </Card>

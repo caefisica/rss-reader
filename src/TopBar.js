@@ -6,12 +6,12 @@ import { withRouter } from "react-router-dom";
 function TopBar({ location }) {
   return (
     <Navbar bg="primary" expand="lg" variant="dark">
-      <Navbar.Brand href="#home">RSS App</Navbar.Brand>
+      <Navbar.Brand href="#home">RSS del CAE</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="/" active={location.pathname == "/"}>
-            Home
+          <Nav.Link href="/" active={location.pathname === "/"}>
+            Inicio
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>

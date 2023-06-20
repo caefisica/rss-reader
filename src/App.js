@@ -1,30 +1,22 @@
-import React from "react";
-import { Router, Route } from "react-router-dom";
-import HomePage from "./HomePage";
-import { createBrowserHistory as createHistory } from "history";
-import "./App.css";
-import TopBar from "./TopBar";
-import FeedPage from "./FeedPage";
-const history = createHistory();
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import HomePage from './HomePage';
+import './App.css';
+import TopBar from './TopBar';
+import FeedPage from './FeedPage';
 
-function App({ feedsStore }) {
-  return (
-    <div className="App">
-      <Router history={history}>
-        <TopBar />
-        <Route
-          path="/"
-          exact
-          component={props => <HomePage {...props} feedsStore={feedsStore} />}
-        />
-        <Route
-          path="/feed"
-          exact
-          component={props => <FeedPage {...props} feedsStore={feedsStore} />}
-        />
-      </Router>
-    </div>
-  );
-}
+const App = ({ feedsStore }) => (
+  <div className='App'>
+    <Router>
+      <TopBar />
+      <Route path='/' exact>
+        <HomePage feedsStore={feedsStore} />
+      </Route>
+      <Route path='/feed' exact>
+        <FeedPage feedsStore={feedsStore} />
+      </Route>
+    </Router>
+  </div>
+);
 
 export default App;

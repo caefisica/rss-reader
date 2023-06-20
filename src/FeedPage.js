@@ -15,7 +15,7 @@ function ListingCard({ listing, openLink }) {
         <p>{listing.description}</p>
         <p>{listing.content}</p>
         <Button variant="primary" onClick={() => openLink(listing.link)}>
-          Open
+          Leer más
         </Button>{" "}
       </Card.Body>
     </Card>
