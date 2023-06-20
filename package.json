@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^1.4.0",
-    "bootstrap": "^4.3.1",
+    "bootstrap": "^5.3.0",
     "formik": "^1.5.8",
     "mobx": "^5.13.0",
     "mobx-react": "^6.1.3",
