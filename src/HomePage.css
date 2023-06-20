@@ -1,7 +1,112 @@
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 .home-page {
-  padding: 20px;
+  padding: 16px;  /* use multiples of 8 */
+  margin: 1em;
+}
+
+.center {
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.mb-4 {
+  margin-bottom: 32px;  /* use multiples of 8 */
+}
+
+.card {
+  margin-bottom: 1.5rem !important;
+}
+
+.card-animation {
+  animation: fadeIn .5s ease-in;
 }
 
 .card-title {
   padding: 20px;
+}
+
+.card-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.card-body {
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .card {
+    max-width: 600px;
+    margin: 0 auto;  /* centers the card */
+  }
+}
+
+.navbar {
+  padding: 16px;
+}
+
+.nav-link {
+  margin-right: 16px;
+}
+
+.row.d-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row.d-flex > [class*='col-'] {
+  display: flex;
+  flex:1 0 auto;
+}
+
+.card {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.card-body {
+  flex: 1 1 auto;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card {
+  border: 1px solid #ddd;
+  box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.1);
+  transition: all .3s;
+}
+
+.card:hover {
+  box-shadow: 1px 1px 10px 0px rgba(0,0,0,0.15);
+}
+
+.card .card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.card .card-text {
+  color: #333;
+  line-height: 1.6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #000;
+  border-color: #000;
+}
+
+.btn-primary:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #000;
 }

@@ -1,0 +1,48 @@
+/* h */
+
+.sources-page {
+  padding: 16px;
+}
+
+.card-title {
+  padding: 20px;
+}
+
+.sources-page {
+  margin: 1em;
+}
+
+.sources-page .center {
+  text-align: center;
+}
+
+.sources-page .mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.sources-page .card-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sources-page .card-body {
+  position: relative;
+}
+
+.sources-page .btn-danger {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.btn {
+  margin-top: 16px;
+}
+
+@media (min-width: 768px) {
+  .card {
+    max-width: 600px;
+    margin: 0 auto;  /* centers the card */
+  }
+}

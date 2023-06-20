@@ -1,7 +1,10 @@
 import { observable, action, decorate } from "mobx";
 
 class FeedsStore {
-  feeds = [];
+  feeds = [
+    { name: 'Naukas', url: 'https://feedpress.me/naukas' },
+    { name: 'Quanta Magazine', url: 'http://www.quantamagazine.org/feed/' }
+  ];
   feed = "";
 
   setFeeds(feeds) {

@@ -1,0 +1,27 @@
+.navbar {
+  font-size: 1.2em;
+  padding: 16px;
+}
+
+.nav-link {
+  margin-right: 16px;
+}
+
+.navbar-dark .navbar-brand {
+  color: #fff;
+  font-weight: bold;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: #ccc;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #fff;
+}
+
+@media (min-width: 768px) {
+  .navbar-brand {
+    font-size: 1.8em;
+  }
+}
