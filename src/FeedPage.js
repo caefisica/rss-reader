@@ -59,7 +59,7 @@ function FeedPage({ feedsStore, location }) {
   return (
     <div className="feed-page">
       <h1 className="center title">
-        <img src={data.image} alt={data.title} /> {data.title}
+        {data.image && <img src={data.image} alt={data.title} />} {data.title}
       </h1>
       {listings.map((l) => (
         <ListingCard key={l.id} listing={l} openLink={openLink} />
