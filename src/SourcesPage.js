@@ -7,7 +7,6 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import * as yup from "yup";
-const querystring = require("querystring");
 
 const schema = yup.object({
   name: yup.string().required("Name is required"),
@@ -51,6 +50,7 @@ function SourcesPage({ feedsStore }) {
         }
       } catch (ex) {}
       setInitialized(true);
+
     }
   }, [initialized, feedsStore]);
 

@@ -54,6 +54,12 @@ body {
   font-family: 'Inter', sans-serif;
   color: #e6e5e7;
   text-decoration: none;
+  background-color: #121418;
+  border: 1px solid #121418;
+}
+
+.btn-primary:hover {
   background-color: #201335;
   border: 1px solid #201335;
+  transition: 0.3s ease-in-out;
 }
