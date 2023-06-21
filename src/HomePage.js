@@ -1,50 +1,64 @@
-import React, { useState, useEffect } from "react";
-import "./HomePage.css";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { observer } from "mobx-react";
 import Card from "react-bootstrap/Card";
-import { Formik } from "formik";
-import Form from "react-bootstrap/Form";
-import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import * as yup from "yup";
-import { Redirect } from "react-router-dom";
-const querystring = require("querystring");
+import { Row, Col } from 'react-bootstrap';
+import { getFeedListing } from "./requests";
+import EndPageAnimation from './EndPageAnimation';
+import './HomePage.css';
 
-const schema = yup.object({
-  name: yup.string().required("URL is required"),
-  url: yup
-    .string()
-    .required("URL is required")
-    .matches(
-      /(https?:\/\/)?([\w-])+.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/,
-      "Invalid URL"
-    ),
-});
+function useInfiniteScroll(callback) {
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + document.documentElement.scrollTop < document.documentElement.offsetHeight * 0.95) {
+        return;
+      }
+      callback();
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [callback]);
+}
+
+function stripHtml(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return doc.body.textContent || "";
+}
 
 function HomePage({ feedsStore }) {
   const [initialized, setInitialized] = useState(false);
-  const [redirectToFeed, setRedirectToFeed] = useState(false);
+  const [news, setNews] = useState([]);
+  const [count, setCount] = useState(12);
+  const [allNews, setAllNews] = useState([]);
+  const [endReached, setEndReached] = useState(false);
+  const [showNotice, setShowNotice] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async evt => {
-    const isValid = await schema.validate(evt);
-    if (!isValid) {
-      return;
+  const loading = useRef(false);
+
+  const fetchMoreData = useCallback(() => {
+    if (isLoading || endReached) return;
+    setIsLoading(true);
+    loading.current = true;
+  
+    const nextCount = count + 12;
+  
+    if (allNews.length <= nextCount) {
+      setEndReached(true);
+      setNews(prevNews => [...prevNews, ...allNews.slice(count)]); 
+    } else {
+      setNews(prevNews => [...prevNews, ...allNews.slice(count, nextCount)]); 
     }
-    feedsStore.feeds.push(evt);
-    feedsStore.setFeeds(feedsStore.feeds);
-    localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
-  };
+  
+    setCount(nextCount);
+  
+    setIsLoading(false);
+    loading.current = false;
+    setShowNotice(true);
+    setTimeout(() => setShowNotice(false), 2000);
+  }, [allNews, count, endReached, isLoading]);  
 
-  const setSelectedFeed = url => {
-    feedsStore.setSelectedFeed(url);
-    setRedirectToFeed(true);
-  };
-
-  const deleteFeed = index => {
-    feedsStore.feeds.splice(index, 1);
-    feedsStore.setFeeds(feedsStore.feeds);
-    localStorage.setItem("feeds", JSON.stringify(feedsStore.feeds));
-  };
+  useInfiniteScroll(fetchMoreData);
 
   useEffect(() => {
     if (!initialized) {
@@ -53,92 +67,63 @@ function HomePage({ feedsStore }) {
         rssFeeds = JSON.parse(localStorage.getItem("feeds"));
         if (Array.isArray(rssFeeds)) {
           feedsStore.setFeeds(rssFeeds);
+        } else {
+          feedsStore.setFeeds(feedsStore.feeds);
         }
       } catch (ex) {}
       setInitialized(true);
     }
-  }, [initialized, feedsStore]);
 
-  if (redirectToFeed) {
-    return (
-      <Redirect to={`/feed?${querystring.encode({ url: feedsStore.feed })}`} />
-    );
-  }
+    loading.current = true;
+    Promise.all(feedsStore.feeds.map(feed => getFeedListing(feed.url)))
+      .then(responses => {
+        const allNewsData = [].concat(...responses.map(res => res.data.items));
+        allNewsData.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+        setAllNews(allNewsData);
+        setNews(allNewsData.slice(0, 12));
+      })
+      .catch(err => {
+        console.error(err);
+        setEndReached(true);
+      })
+      .finally(() => {
+        loading.current = false;
+        setIsLoading(false);
+      });
+  }, [initialized, feedsStore]);
 
   return (
     <div className="home-page">
-      <h1 className="center">Fuentes de noticias</h1>
-      <Formik
-        validationSchema={schema}
-        onSubmit={handleSubmit}
-        initialValues={{ name: '', url: '' }}
-      >
-        {({
-          handleSubmit,
-          handleChange,
-          handleBlur,
-          values,
-          touched,
-          isInvalid,
-          errors,
-        }) => (
-          <Form noValidate onSubmit={handleSubmit}>
-            <Form.Row>
-              <Form.Group as={Col} md="12" controlId="name">
-                <Form.Label>Nombre</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="name"
-                  placeholder="Nombre"
-                  value={values.name || ""}
-                  onChange={handleChange}
-                  isInvalid={touched.name && errors.name}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.name}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group as={Col} md="12" controlId="url">
-                <Form.Label>Enlace</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="url"
-                  placeholder="Enlace"
-                  value={values.url || ""}
-                  onChange={handleChange}
-                  isInvalid={touched.url && errors.url}
-                />
-
-                <Form.Control.Feedback type="invalid">
-                  {errors.url}
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Form.Row>
-            <Button type="submit">Añadir</Button>
-          </Form>
-        )}
-      </Formik>
-      <br />
-      {feedsStore.feeds.map((f, i) => {
-        return (
-          <Card key={i}>
-            <Card.Title className="card-title">{f.name}</Card.Title>
+      <Row className="d-flex justify-content-center">
+      {news.map((item, index) => (
+        <Col xs={12} md={8} lg={6} xl={4} className="mb-4" key={item.id}>
+          <Card className="card-animation">
             <Card.Body>
-              <p>{f.url}</p>
-              <Button
-                variant="primary"
-                onClick={setSelectedFeed.bind(this, f.url)}
-              >
-                Leer
-              </Button>{" "}
-              <Button variant="primary" onClick={deleteFeed.bind(this, i)}>
-                Eliminar
+              <Card.Title className="p-0">{item.title}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">{new Date(item.pubDate).toDateString()} - {item.source}</Card.Subtitle>
+              <Card.Text>
+                {
+                  (() => {
+                    let text = stripHtml(item.description);
+                    return text.length > 200 
+                      ? `${text.substring(0, 200)}...` 
+                      : text
+                  })()
+                }
+              </Card.Text>
+              <Button variant="primary" href={item.link} target="_blank" rel="noopener noreferrer">
+                Entérate
               </Button>
             </Card.Body>
           </Card>
-        );
-      })}
+        </Col>
+      ))}
+      </Row>
+      {isLoading && <h4>Loading more items...</h4>}
+      {showNotice && <div className="notice-card">¡Nuevos items han sido añadidos!</div>}
+      {!isLoading && endReached && <EndPageAnimation />}
     </div>
   );
 }
+
 export default observer(HomePage);

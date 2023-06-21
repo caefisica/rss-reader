@@ -1,7 +1,177 @@
-.home-page {
-  padding: 20px;
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,500&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+body {
+  background-color: #e9e6e4;
+  font-family: 'Inter', sans-serif;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 2em;
+  font-weight: 400;
+  height: 100vh;
+
+  @media screen and (max-width: 768px) {
+    padding: 0;
+  }
 }
 
-.card-title {
+.home-page {
+  max-width: 1350px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  overflow: hidden;
+  padding: 40px 4px;
+  margin: 0 auto;
+}
+
+.card-animation {
+  background-color: #e9e6e4;
   padding: 20px;
+  border: 1px solid #94918f;
+  margin-bottom: 20px;
+  flex: 0 0 calc(33.33% - 20px);
+  min-height: 100%;
+}
+
+.card-animation .card-title {
+  font-size: 22px;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #121418;
+}
+
+.card-animation .card-subtitle {
+  font-size: 14px;
+  color: #161419;
+}
+
+.card-animation .card-text {
+  font-family: 'Inter', sans-serif;
+  color: #161419;
+}
+
+.card-animation .btn-primary {
+  font-family: 'Inter', sans-serif;
+  color: #e6e5e7;
+  text-decoration: none;
+  background-color: #121418;
+  border: 1px solid #121418;
+}
+
+.btn-primary:hover {
+  background-color: #201335;
+  border: 1px solid #201335;
+  transition: 0.3s ease-in-out;
+}
+
+.notice-card {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  z-index: 9999; /* Ensure it overlays other elements */
+}
+
+.end-message {
+  margin: 16vh 0;
+}
+
+/* End Message */
+
+.end-message {
+  --purple: rgb(123, 31, 162);
+  --violet: rgb(103, 58, 183);
+  --pink: rgb(244, 143, 177);
+
+  display: grid;
+  height: 12vh;
+  overflow: hidden;
+  place-items: center;
+}
+
+.end-message h1 {
+  font-size: clamp(2em, 2vw, 4em);
+  font-weight: 400;
+  margin: 0px;
+  padding: 20px;
+  text-align: center;
+}
+
+.end-message h1 > .magic {
+  display: inline-block;
+  position: relative;
+}
+
+.end-message h1 > .magic > .magic-star {
+  --size: clamp(20px, 1.5vw, 30px);
+
+  animation: scale 700ms ease forwards;
+  display: block;
+  height: var(--size);
+  width: var(--size);
+
+  /* Add these lines */
+  position: absolute;
+  left: var(--star-left, 0); /* fallback to 0 if variable is not defined */
+  top: var(--star-top, 0); /* fallback to 0 if variable is not defined */
+}
+
+.end-message h1 > .magic > .magic-star > svg {
+  animation: rotate 1000ms linear infinite;
+  display: block;
+  opacity: 0.7;
+}
+
+.end-message h1 > .magic > .magic-star > svg > path {
+  fill: var(--violet);
+}
+
+.end-message h1 > .magic > .magic-text {
+  animation: background-pan 3s linear infinite;
+  background: linear-gradient(
+    to right,
+    var(--purple),
+    var(--violet),
+    var(--pink),
+    var(--purple)
+  );
+  background-size: 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  white-space: nowrap;
+}
+
+@keyframes background-pan {
+  from {
+    background-position: 0% center;
+  }
+
+  to {
+    background-position: -200% center;
+  }
+}
+
+@keyframes scale {
+  from, to {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(180deg);
+  }
 }

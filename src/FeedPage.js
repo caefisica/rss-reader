@@ -4,19 +4,23 @@ import { observer } from "mobx-react";
 import { withRouter } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-// import * as yup from "yup";
 import { getFeedListing } from "./requests";
 
 function ListingCard({ listing, openLink }) {
   return (
-    <Card>
-      <Card.Title className="card-title">{listing.title}</Card.Title>
+    <Card className="mb-4 card-animation">
       <Card.Body>
-        <p>{listing.description}</p>
-        <p>{listing.content}</p>
+        <Card.Title className="p-0">{listing.title}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{new Date(listing.pubDate).toDateString()} - {listing.source}</Card.Subtitle>
+        <Card.Text>
+          {listing.description}
+        </Card.Text>
+        <Card.Text>
+          {listing.content}
+        </Card.Text>
         <Button variant="primary" onClick={() => openLink(listing.link)}>
           Leer más
-        </Button>{" "}
+        </Button>
       </Card.Body>
     </Card>
   );
