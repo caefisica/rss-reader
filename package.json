@@ -15,6 +15,7 @@
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^5.0.1",
+    "shx": "^0.3.4",
     "yup": "^1.2.0"
   },
   "scripts": {
