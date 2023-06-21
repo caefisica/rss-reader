@@ -1,68 +1,44 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# RSS para Físicos
 
-## Available Scripts
+Este es el repositorio de una aplicación web basada en React que permite a los estudiantes de física mantenerse actualizados con las últimas noticias y avances en el campo de la física y la ciencia en general. Esta aplicación está basada en el proyecto original creado por [@hauyeung](https://bitbucket.org/hauyeung/), cuyo trabajo puede ser visualizado [aquí](https://bitbucket.org/hauyeung/react-rss-tutorial-app/src/master/).
 
-In the project directory, you can run:
+## Características principales
 
-### `npm start`
+La aplicación tiene un propósito definido: facilitar el acceso a información reciente y relevante en el campo de la física a través de la lectura de feeds RSS. Sus características destacadas son:
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. *Extracción y visualización de feeds RSS*: La aplicación toma las fuentes RSS proporcionadas por el usuario y las presenta en un formato fácil de leer.
+2. *Carga infinita*: El uso del scroll infinito en la página principal permite cargar continuamente más artículos a medida que el usuario se desplaza por la página.
+3. *Gestión de fuentes*: Los usuarios tienen la capacidad de añadir y eliminar sus fuentes de feeds RSS según sus preferencias.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Guía de Instalación y Uso
 
-### `npm test`
+Para instalar y utilizar esta aplicación, siga los pasos a continuación:
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone el repositorio con el comando `git clone https://github.com/caefisica/rss-reader.git`
+2. Ingrese al directorio del proyecto con `cd rss-reader`
+3. Instale las dependencias necesarias con `npm i`
+4. Inicie la aplicación con `npm run start`
 
-### `npm run build`
+Nota: El desarrollador utiliza `Node v14.21.3` y `npm 6.14.8`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Las páginas principales de la aplicación son:
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+- `HomePage`: Página principal que extrae y muestra las fuentes RSS. Se carga más contenido automáticamente al desplazarse hacia abajo.
+- `SourcesPage`: Página que permite la adición y eliminación de fuentes de feeds RSS.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Errores y Problemas Conocidos
 
-### `npm run eject`
+Hasta el momento, no se han identificado errores o problemas específicos. Sin embargo, si se encuentra algún error durante el uso de la aplicación, se solicita reportarlo a través de la sección "Issues" de este repositorio de GitHub.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Contribución al Proyecto
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Se invita a otros desarrolladores a contribuir a este proyecto. Para hacerlo, por favor siga los siguientes pasos:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. Haga un "fork" del repositorio
+2. Cree una nueva rama en su "fork" para sus modificaciones
+3. Realice los cambios necesarios y pruébelos correctamente
+4. Envíe un "Pull Request" detallando los cambios realizados
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+# Licencia
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Este proyecto se encuentra bajo la Licencia MIT. Para más detalles, por favor, consulte el archivo [LICENCE](LICENSE).
