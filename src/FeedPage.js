@@ -4,7 +4,6 @@ import { observer } from "mobx-react";
 import { withRouter } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-// import * as yup from "yup";
 import { getFeedListing } from "./requests";
 
 function ListingCard({ listing, openLink }) {

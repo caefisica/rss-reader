@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { Row, Col } from 'react-bootstrap';
 import { getFeedListing } from "./requests";
+import EndPageAnimation from './EndPageAnimation';
 import './HomePage.css';
 
 function useInfiniteScroll(callback) {
@@ -79,7 +80,7 @@ function HomePage({ feedsStore }) {
         const allNewsData = [].concat(...responses.map(res => res.data.items));
         allNewsData.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
         setAllNews(allNewsData);
-        setNews(allNewsData.slice(0, 12)); // Set the first 12 items as news
+        setNews(allNewsData.slice(0, 12));
       })
       .catch(err => {
         console.error(err);
@@ -111,7 +112,7 @@ function HomePage({ feedsStore }) {
                 }
               </Card.Text>
               <Button variant="primary" href={item.link} target="_blank" rel="noopener noreferrer">
-                Read More
+                Entérate
               </Button>
             </Card.Body>
           </Card>
@@ -119,8 +120,8 @@ function HomePage({ feedsStore }) {
       ))}
       </Row>
       {isLoading && <h4>Loading more items...</h4>}
-      {showNotice && <div className="notice-card">New items added!</div>}
-      {!isLoading && endReached && <div className="end-message"><h4>You got to the end!</h4></div>}
+      {showNotice && <div className="notice-card">¡Nuevos items han sido añadidos!</div>}
+      {!isLoading && endReached && <EndPageAnimation />}
     </div>
   );
 }

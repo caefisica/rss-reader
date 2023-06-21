@@ -1,6 +1,6 @@
 {
   "name": "cae-rss",
-  "version": "0.2.0",
+  "version": "0.9.0",
   "private": false,
   "dependencies": {
     "axios": "^1.4.0",
