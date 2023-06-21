@@ -9,13 +9,13 @@ import Button from "react-bootstrap/Button";
 import * as yup from "yup";
 
 const schema = yup.object({
-  name: yup.string().required("Name is required"),
+  name: yup.string().required("Es necesario que proporciones un nombre"),
   url: yup
     .string()
-    .required("URL is required")
+    .required("Una URL es requerida")
     .matches(
       /(https?:\/\/)?([\w-])+.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/,
-      "Invalid URL"
+      "El enlace debe ser una URL válida"
     ),
 });
 
@@ -57,6 +57,7 @@ function SourcesPage({ feedsStore }) {
   return (
     <div className="sources-page">
       <h1 className="center">Fuentes de noticias</h1>
+      <p className="my-4 text-secondary">Puedes agregar fácilmente una nueva fuente proporcionando su 'Nombre' y 'URL', y luego haz clic en 'Agregar'. Cada fuente se lista a continuación, y puedes eliminar cualquiera haciendo clic en 'Eliminar'.</p>
       <Formik
         validationSchema={schema}
         onSubmit={handleSubmit}
