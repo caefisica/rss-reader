@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { observer } from "mobx-react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -9,9 +9,7 @@ import './HomePage.css';
 function useInfiniteScroll(callback) {
   useEffect(() => {
     const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop < document.documentElement.offsetHeight - 50
-      ) {
+      if (window.innerHeight + document.documentElement.scrollTop < document.documentElement.offsetHeight * 0.95) {
         return;
       }
       callback();
@@ -32,27 +30,32 @@ function HomePage({ feedsStore }) {
   const [count, setCount] = useState(12);
   const [allNews, setAllNews] = useState([]);
   const [endReached, setEndReached] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [showNotice, setShowNotice] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const loading = useRef(false);
 
   const fetchMoreData = useCallback(() => {
-    if (loading) return;
-    if (allNews.length > count) {
-      setLoading(true);
-      setCount(prevCount => {
-        const newCount = prevCount + 12;
-        setNews(allNews.slice(0, newCount));
-        return newCount;
-      });
-      setLoading(false);
-      setShowNotice(true);
-      setTimeout(() => setShowNotice(false), 2000); // Hide notice after 2 seconds
-    } else if (allNews.length <= count && allNews.length > 0) {
+    if (isLoading || endReached) return;
+    setIsLoading(true);
+    loading.current = true;
+  
+    const nextCount = count + 12;
+  
+    if (allNews.length <= nextCount) {
       setEndReached(true);
-    } else if (allNews.length === 0) {
-      setEndReached(true);
+      setNews(prevNews => [...prevNews, ...allNews.slice(count)]); 
+    } else {
+      setNews(prevNews => [...prevNews, ...allNews.slice(count, nextCount)]); 
     }
-  }, [allNews, count, loading]);   
+  
+    setCount(nextCount);
+  
+    setIsLoading(false);
+    loading.current = false;
+    setShowNotice(true);
+    setTimeout(() => setShowNotice(false), 2000);
+  }, [allNews, count, endReached, isLoading]);  
 
   useInfiniteScroll(fetchMoreData);
 
@@ -69,8 +72,8 @@ function HomePage({ feedsStore }) {
       } catch (ex) {}
       setInitialized(true);
     }
-  
-    setLoading(true);
+
+    loading.current = true;
     Promise.all(feedsStore.feeds.map(feed => getFeedListing(feed.url)))
       .then(responses => {
         const allNewsData = [].concat(...responses.map(res => res.data.items));
@@ -82,8 +85,11 @@ function HomePage({ feedsStore }) {
         console.error(err);
         setEndReached(true);
       })
-      .finally(() => setLoading(false));
-  }, [initialized, feedsStore]);  
+      .finally(() => {
+        loading.current = false;
+        setIsLoading(false);
+      });
+  }, [initialized, feedsStore]);
 
   return (
     <div className="home-page">
@@ -112,9 +118,9 @@ function HomePage({ feedsStore }) {
         </Col>
       ))}
       </Row>
-      {loading && <h4>Loading more items...</h4>}
+      {isLoading && <h4>Loading more items...</h4>}
       {showNotice && <div className="notice-card">New items added!</div>}
-      {!loading && endReached && <h4>You got to the end!</h4>}
+      {!isLoading && endReached && <h4>You got to the end!</h4>}
     </div>
   );
 }
