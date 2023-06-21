@@ -100,7 +100,9 @@ function HomePage({ feedsStore }) {
           <Card className="card-animation">
             <Card.Body>
               <Card.Title className="p-0">{item.title}</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">{new Date(item.pubDate).toDateString()} - {item.source}</Card.Subtitle>
+              <Card.Subtitle className="mb-2 text-muted">
+                {new Date(item.pubDate).toLocaleDateString('es-ES')} - {item.author}
+              </Card.Subtitle>
               <Card.Text>
                 {
                   (() => {
