@@ -96,7 +96,7 @@ function HomePage({ feedsStore }) {
     <div className="home-page">
       <Row className="d-flex justify-content-center">
       {news.map((item, index) => (
-        <Col xs={12} md={8} lg={6} xl={4} className="mb-4" key={item.id}>
+        <Col xs={12} md={8} lg={6} xl={4} className="mb-4" key={`${item.pubDate}-${item.title}`}>
           <Card className="card-animation">
             <Card.Body>
               <Card.Title className="p-0">{item.title}</Card.Title>
