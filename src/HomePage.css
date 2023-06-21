@@ -75,3 +75,7 @@ body {
   font-size: 1.2rem;
   z-index: 9999; /* Ensure it overlays other elements */
 }
+
+.end-message {
+  margin: 16vh 0;
+}

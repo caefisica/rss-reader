@@ -120,7 +120,7 @@ function HomePage({ feedsStore }) {
       </Row>
       {isLoading && <h4>Loading more items...</h4>}
       {showNotice && <div className="notice-card">New items added!</div>}
-      {!isLoading && endReached && <h4>You got to the end!</h4>}
+      {!isLoading && endReached && <div className="end-message"><h4>You got to the end!</h4></div>}
     </div>
   );
 }
