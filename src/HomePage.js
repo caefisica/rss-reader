@@ -10,8 +10,7 @@ function useInfiniteScroll(callback) {
   useEffect(() => {
     const handleScroll = () => {
       if (
-        window.innerHeight + document.documentElement.scrollTop
-        !== document.documentElement.offsetHeight
+        window.innerHeight + document.documentElement.scrollTop < document.documentElement.offsetHeight - 50
       ) {
         return;
       }
@@ -34,29 +33,25 @@ function HomePage({ feedsStore }) {
   const [allNews, setAllNews] = useState([]);
   const [endReached, setEndReached] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [loadingLock, setLoadingLock] = useState(false);
+
+  console.log("The news is: ", news)
 
   const fetchMoreData = useCallback(() => {
-    if (loadingLock) return;
-
+    if (loading) return;
     if (allNews.length > count) {
       setLoading(true);
-      setLoadingLock(true);
-      setTimeout(() => {
-        setCount(prevCount => {
-          const newCount = prevCount + 12;
-          setNews(allNews.slice(0, newCount));
-          return newCount;
-        });
-        setLoading(false);
-        setLoadingLock(false);
-      }, 1000);
+      setCount(prevCount => {
+        const newCount = prevCount + 12;
+        setNews(allNews.slice(0, newCount));
+        return newCount;
+      });
+      setLoading(false);
     } else if (allNews.length <= count && allNews.length > 0) {
       setEndReached(true);
     } else if (allNews.length === 0) {
       setEndReached(true);
     }
-  }, [allNews, count, loadingLock, setLoadingLock]);
+  }, [allNews, count, loading]);   
 
   useInfiniteScroll(fetchMoreData);
 
@@ -74,25 +69,30 @@ function HomePage({ feedsStore }) {
       setInitialized(true);
     }
   
+    setLoading(true);
     Promise.all(feedsStore.feeds.map(feed => getFeedListing(feed.url)))
       .then(responses => {
         const allNewsData = [].concat(...responses.map(res => res.data.items));
         allNewsData.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
         setAllNews(allNewsData);
-        fetchMoreData();
+        setNews(allNewsData.slice(0, 12)); // Set the first 12 items as news
       })
-      .catch(err => console.error(err));
-  }, [initialized, feedsStore, fetchMoreData]);  
+      .catch(err => {
+        console.error(err);
+        setEndReached(true);
+      })
+      .finally(() => setLoading(false));
+  }, [initialized, feedsStore]);  
 
   return (
     <div className="home-page">
       <Row className="d-flex justify-content-center">
       {news.map((item, index) => (
-        <Col xs={12} md={8} lg={6} xl={4} className="mb-4" key={index}>
+        <Col xs={12} md={8} lg={6} xl={4} className="mb-4" key={item.id}>
           <Card className="card-animation">
             <Card.Body>
               <Card.Title className="p-0">{item.title}</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">{new Date(item.pubDate).toDateString()} - {item.source}</Card.Subtitle>
+              <Card.Subtitle className="mb-2 text-muted">{new Date(item.pubDate).toDateString()} - {item.author}</Card.Subtitle>
               <Card.Text>
                 {
                   (() => {
