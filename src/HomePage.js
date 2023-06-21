@@ -33,8 +33,7 @@ function HomePage({ feedsStore }) {
   const [allNews, setAllNews] = useState([]);
   const [endReached, setEndReached] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  console.log("The news is: ", news)
+  const [showNotice, setShowNotice] = useState(false);
 
   const fetchMoreData = useCallback(() => {
     if (loading) return;
@@ -46,6 +45,8 @@ function HomePage({ feedsStore }) {
         return newCount;
       });
       setLoading(false);
+      setShowNotice(true);
+      setTimeout(() => setShowNotice(false), 2000); // Hide notice after 2 seconds
     } else if (allNews.length <= count && allNews.length > 0) {
       setEndReached(true);
     } else if (allNews.length === 0) {
@@ -92,7 +93,7 @@ function HomePage({ feedsStore }) {
           <Card className="card-animation">
             <Card.Body>
               <Card.Title className="p-0">{item.title}</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">{new Date(item.pubDate).toDateString()} - {item.author}</Card.Subtitle>
+              <Card.Subtitle className="mb-2 text-muted">{new Date(item.pubDate).toDateString()} - {item.source}</Card.Subtitle>
               <Card.Text>
                 {
                   (() => {
@@ -112,6 +113,7 @@ function HomePage({ feedsStore }) {
       ))}
       </Row>
       {loading && <h4>Loading more items...</h4>}
+      {showNotice && <div className="notice-card">New items added!</div>}
       {!loading && endReached && <h4>You got to the end!</h4>}
     </div>
   );

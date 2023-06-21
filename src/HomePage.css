@@ -63,3 +63,15 @@ body {
   border: 1px solid #201335;
   transition: 0.3s ease-in-out;
 }
+
+.notice-card {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  z-index: 9999; /* Ensure it overlays other elements */
+}
