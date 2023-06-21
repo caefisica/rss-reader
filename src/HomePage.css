@@ -9,10 +9,6 @@ body {
   padding: 0 2em;
   font-weight: 400;
   height: 100vh;
-
-  @media screen and (max-width: 768px) {
-    padding: 0;
-  }
 }
 
 .home-page {
@@ -73,7 +69,7 @@ body {
   border-radius: 0.25rem;
   padding: 10px 20px;
   font-size: 1.2rem;
-  z-index: 9999; /* Ensure it overlays other elements */
+  z-index: 9999;
 }
 
 .end-message {
@@ -114,10 +110,9 @@ body {
   height: var(--size);
   width: var(--size);
 
-  /* Add these lines */
   position: absolute;
-  left: var(--star-left, 0); /* fallback to 0 if variable is not defined */
-  top: var(--star-top, 0); /* fallback to 0 if variable is not defined */
+  left: var(--star-left, 0);
+  top: var(--star-top, 0);
 }
 
 .end-message h1 > .magic > .magic-star > svg {

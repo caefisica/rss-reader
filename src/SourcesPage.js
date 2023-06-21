@@ -72,8 +72,8 @@ function SourcesPage({ feedsStore }) {
           errors,
         }) => (
           <Form noValidate onSubmit={handleSubmit}>
-            <Form.Row>
-              <Form.Group as={Col} md="12" controlId="name" className="mb-3">
+            <Form.Row className="gx-2 gy-3 email-form d-flex align-items-end">
+              <Form.Group as={Col} md="12" controlId="name">
                 <Form.Label>Nombre</Form.Label>
                 <Form.Control
                   type="text"
@@ -87,7 +87,7 @@ function SourcesPage({ feedsStore }) {
                   {errors.name}
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="12" controlId="url" className="mb-3">
+              <Form.Group as={Col} md="12" controlId="url">
                 <Form.Label>Enlace</Form.Label>
                 <Form.Control
                   type="text"
@@ -101,21 +101,19 @@ function SourcesPage({ feedsStore }) {
                   {errors.url}
                 </Form.Control.Feedback>
               </Form.Group>
+              <Button type="submit">Añadir</Button>
             </Form.Row>
-            <Button type="submit" className="mb-3">Añadir</Button>
           </Form>
         )}
       </Formik>
       <br />
       {feedsStore.feeds.map((f, i) => {
         return (
-          <Card key={i} className="mb-4 card-animation">
+          <Card key={i} className="card-animation">
             <Card.Body>
-              <Card.Title className="p-0">{f.name}</Card.Title>
-              <Card.Text>
-                {f.url}
-              </Card.Text>
-              <Button variant="danger" onClick={() => deleteFeed(i)}>
+              <Card.Title>{f.name}</Card.Title>
+              <Card.Text>{f.url}</Card.Text>
+              <Button variant="primary" onClick={() => deleteFeed(i)}>
                 Eliminar
               </Button>
             </Card.Body>
