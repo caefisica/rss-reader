@@ -35,10 +35,6 @@
       "typescript": "^5"
     }
   },
-  "engines": {
-    "node": "14.21.3",
-    "pnpm": "8.10.2"
-  },
   "eslintConfig": {
     "extends": "react-app"
   },
